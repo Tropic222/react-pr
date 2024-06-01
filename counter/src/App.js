@@ -3,7 +3,7 @@ import PostItem from "./components/PostItem";
 function App() {
   return (
     <div className="App">
-      <PostItem />
+      <PostItem post={{ id: 1, title: "JS", body: "Description" }} />
     </div>
   );
 }
