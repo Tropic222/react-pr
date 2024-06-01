@@ -1,10 +1,11 @@
 import react from "react";
+// import Counter from "./components/Counter";
+import ClassCount from "./components/ClassCounter";
 
-import Counter from "./components/Counter";
 function App() {
   return (
     <div className="App">
-      <Counter />
+      <ClassCount />
     </div>
   );
 }
