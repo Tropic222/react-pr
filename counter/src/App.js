@@ -12,7 +12,12 @@ function App() {
 
   return (
     <div className="App">
-      <PostList posts={posts} />
+      <from>
+        <input type=" text" placeholder="Название поста"></input>
+        <input type=" text" placeholder="Описание поста"></input>
+        <button>Создать пост</button>
+      </from>
+      <PostList posts={posts} title="Список постов JS" />
     </div>
   );
 }
