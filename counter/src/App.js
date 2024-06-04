@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./style/styles.css";
 // import PostItem from "./components/PostItem";
 import PostList from "./components/PostList";
 import MyButton from "./components/UI/button/MyButton";
+import MyInput from "./components/UI/input/MyInput";
 
 function App() {
   const [posts, setPosts] = useState([
@@ -12,22 +13,28 @@ function App() {
   ]);
 
   const [title, setTitle] = useState("");
-
+  const bodyInputRef = useRef();
   const addNewPost = (e) => {
     e.preventDefault();
     console.log(title);
+    console.log(bodyInputRef.current.value);
   };
 
   return (
     <div className="App">
       <from>
-        <input
+        <MyInput
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           type=" text"
           placeholder="Название поста"
-        ></input>
-        <input type=" text" placeholder="Описание поста"></input>
+        ></MyInput>
+        {/* Неуправляемый\ Неконтролируемый компонент */}
+        <MyInput
+          ref={bodyInputRef}
+          type=" text"
+          placeholder="Описание поста"
+        ></MyInput>
         <MyButton onClick={addNewPost}>Создать пост</MyButton>
       </from>
       <PostList posts={posts} title="Список постов JS" />
