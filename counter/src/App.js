@@ -12,31 +12,36 @@ function App() {
     { id: 3, title: "JS3", body: "Description" },
   ]);
 
-  const [title, setTitle] = useState("");
-  const bodyInputRef = useRef();
+  const [post, setPost] = useState({
+    title: "",
+    body: "",
+  });
+
   const addNewPost = (e) => {
     e.preventDefault();
-    console.log(title);
-    console.log(bodyInputRef.current.value);
+
+    setPosts([...posts, { ...post, id: Date.now() }]);
+    setPost({ title: "", body: "" });
   };
 
   return (
     <div className="App">
-      <from>
+      <form>
         <MyInput
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={post.title}
+          onChange={(e) => setPost({ ...post, title: e.target.value })}
           type=" text"
           placeholder="Название поста"
         ></MyInput>
         {/* Неуправляемый\ Неконтролируемый компонент */}
         <MyInput
-          ref={bodyInputRef}
+          value={post.body}
+          onChange={(e) => setPost({ ...post, body: e.target.value })}
           type=" text"
           placeholder="Описание поста"
         ></MyInput>
         <MyButton onClick={addNewPost}>Создать пост</MyButton>
-      </from>
+      </form>
       <PostList posts={posts} title="Список постов JS" />
     </div>
   );
