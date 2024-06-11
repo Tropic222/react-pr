@@ -27,14 +27,14 @@ function App() {
 
   const sortedAndSearchedPosts = useMemo(() => {
     return sortedPosts.filter((post) =>
-      post.title.includes(filter.query.toLowerCase())
+      post.title.toLowerCase().includes(filter.query.toLowerCase())
     );
   }, [filter.query, sortedPosts]);
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
   };
-  //получаем post из дочернего компонента
+
   const removePost = (post) => {
     setPosts(posts.filter((p) => p.id !== post.id));
   };
@@ -43,7 +43,7 @@ function App() {
     <div className="App">
       <PostForm create={createPost} />
       <hr style={{ margin: "15px 0" }}></hr>
-      <PostFilter filter={filter} setFilter={setFilter()} />
+      <PostFilter filter={filter} setFilter={setFilter} />
       {sortedAndSearchedPosts.length ? (
         <PostList
           remove={removePost}
