@@ -16,7 +16,7 @@ function App() {
   const [selectedSort, setSelectedSort] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const sortedPost = useMemo(() => {
+  const sortedPosts = useMemo(() => {
     console.log("ОТРАБОТАЛА ФУНКЦИЯ sortedPosts");
     if (selectedSort) {
       return [...posts].sort((a, b) =>
@@ -25,6 +25,10 @@ function App() {
     }
     return posts;
   }, [selectedSort, posts]);
+
+  const sertedAndSearchedPosts = useMemo(() => {
+    return sortedPosts.filter((post) => post.title.includes(searchQuery));
+  }, [searchQuery, sortedPosts]);
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
@@ -60,7 +64,7 @@ function App() {
       {posts.length ? (
         <PostList
           remove={removePost}
-          posts={sortedPost}
+          posts={sertedAndSearchedPosts}
           title="Список постов JS"
         />
       ) : (
