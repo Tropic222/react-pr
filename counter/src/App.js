@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "./style/styles.css";
 import PostList from "./components/PostList";
 import PostForm from "./components/PostForm";
@@ -8,6 +7,7 @@ import MyModal from "./components/UI/MyModal/MyModal";
 import MyButton from "./components/UI/button/MyButton";
 import { usePosts } from "./hooks/usePosts";
 import PostServies from "./API/PostServies";
+import Loader from "./components/UI/Loader/Loader";
 
 function App() {
   const [posts, setPosts] = useState([
@@ -19,7 +19,7 @@ function App() {
   const [filter, setFilter] = useState({ sort: "", query: "" });
   const [modal, setModal] = useState(false);
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
-  const [isPostsLloading, setIsPostsLoading] = useState(false);
+  const [isPostsLoading, setIsPostsLoading] = useState(false);
 
   useEffect(() => {
     fetchPosts();
@@ -32,9 +32,11 @@ function App() {
 
   async function fetchPosts() {
     setIsPostsLoading(true);
-    const posts = await PostServies.getAll();
-    setPosts(posts);
-    setIsPostsLoading(false);
+    setTimeout(async () => {
+      const posts = await PostServies.getAll();
+      setPosts(posts);
+      setIsPostsLoading(false);
+    }, 1000);
   }
 
   const removePost = (post) => {
@@ -53,8 +55,12 @@ function App() {
       </MyModal>
       <hr style={{ margin: "15px 0" }}></hr>
       <PostFilter filter={filter} setFilter={setFilter} />
-      {isPostsLloading ? (
-        <h1>Идёт загркзка...</h1>
+      {isPostsLoading ? (
+        <div
+          style={{ display: "flex", justifyContent: "center", marginTop: 50 }}
+        >
+          <Loader />
+        </div>
       ) : (
         <PostList
           remove={removePost}
