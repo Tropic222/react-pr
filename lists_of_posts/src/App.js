@@ -34,18 +34,19 @@ function App() {
     const totalCount = response.headers["x-total-count"];
     setTotalPages(getPageCount(totalCount, limit));
   });
-
   useEffect(() => {
     fetchPosts();
-  }, []);
-
+  }, [page]);
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
     setModal(false);
   };
-
   const removePost = (post) => {
     setPosts(posts.filter((p) => p.id !== post.id));
+  };
+
+  const changePage = (page) => {
+    setPage(page);
   };
 
   return (
@@ -76,7 +77,7 @@ function App() {
       <div className="page__wrapper">
         {pageArray.map((p) => (
           <span
-            onClick={() => setPage(p)}
+            onClick={() => changePage(p)}
             key={p}
             className={page === p ? "page page__current" : "page"}
           >
