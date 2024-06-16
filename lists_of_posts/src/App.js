@@ -9,7 +9,8 @@ import { usePosts } from "./hooks/usePosts";
 import PostServies from "./API/PostServies";
 import Loader from "./components/UI/Loader/Loader";
 import { useFatching } from "./hooks/useFetching";
-import { getPageCount, getPagesArray } from "./utils/pages";
+import { getPageCount } from "./utils/pages";
+import Pagination from "./components/UI/pagination/Pagination";
 
 function App() {
   const [posts, setPosts] = useState([
@@ -26,17 +27,17 @@ function App() {
   const [limit, seLimit] = useState(10);
   const [page, setPage] = useState(1);
 
-  const pageArray = getPagesArray(totalPages);
-
-  const [fetchPosts, isPostsLoading, postError] = useFatching(async () => {
-    const response = await PostServies.getAll(limit, page);
-    setPosts(response.data);
-    const totalCount = response.headers["x-total-count"];
-    setTotalPages(getPageCount(totalCount, limit));
-  });
+  const [fetchPosts, isPostsLoading, postError] = useFatching(
+    async (limit, page) => {
+      const response = await PostServies.getAll(limit, page);
+      setPosts(response.data);
+      const totalCount = response.headers["x-total-count"];
+      setTotalPages(getPageCount(totalCount, limit));
+    }
+  );
   useEffect(() => {
-    fetchPosts();
-  }, [page]);
+    fetchPosts(limit, page);
+  }, []);
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
     setModal(false);
@@ -47,6 +48,7 @@ function App() {
 
   const changePage = (page) => {
     setPage(page);
+    fetchPosts(limit, page);
   };
 
   return (
@@ -74,17 +76,7 @@ function App() {
           title="Список постов JS"
         />
       )}
-      <div className="page__wrapper">
-        {pageArray.map((p) => (
-          <span
-            onClick={() => changePage(p)}
-            key={p}
-            className={page === p ? "page page__current" : "page"}
-          >
-            {p}
-          </span>
-        ))}
-      </div>
+      <Pagination page={page} changePage={changePage} totalPages={totalPages} />
     </div>
   );
 }
