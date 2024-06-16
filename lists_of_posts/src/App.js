@@ -75,7 +75,11 @@ function App() {
       )}
       <div className="page__wrapper">
         {pageArray.map((p) => (
-          <span key={p} className={page === p ? "page page__current" : "page"}>
+          <span
+            onClick={() => setPage(p)}
+            key={p}
+            className={page === p ? "page page__current" : "page"}
+          >
             {p}
           </span>
         ))}
