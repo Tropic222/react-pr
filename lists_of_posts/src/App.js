@@ -19,6 +19,12 @@ import Posts from "./pages/Posts";
 function App() {
   return (
     <BrowserRouter>
+      <div className="navbar">
+        <div className="navbar__links">
+          <a href="/about">About</a>
+          <a href="/posts">Posts</a>
+        </div>
+      </div>
       <Routes>
         <Route path="posts" element={<Posts />} />
         <Route path="about" element={<About />} />
