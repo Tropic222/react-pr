@@ -12,7 +12,7 @@ const Login = () => {
       event.preventDefault();
       setIsAuth(true);
       localStorage.setItem("auth", "true");
-      navigate("/posts"); // Перенаправление на страницу posts после успешного входа
+      navigate("/posts");
     };
   
     return (
