@@ -3,9 +3,14 @@ import { Route, Routes } from "react-router-dom";
 import { publicRoutes, privateRoutes } from "../router/index";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "../context";
+import Loader from "./UI/Loader/Loader";
 
 const AppRouter = () => {
-  const { isAuth } = useContext(AuthContext);
+  const { isAuth, isLoading } = useContext(AuthContext);
+
+  if (isLoading) {
+    return <Loader />
+  }
 
   return (
     isAuth
@@ -14,7 +19,7 @@ const AppRouter = () => {
           {privateRoutes.map((route, index) => (
             <Route key={index} path={route.path} element={route.element} />
           ))}
-          <Route path="/*" element={<Navigate to="/posts" replace />} />  {/* Исправлено с post на posts */}
+          <Route path="/*" element={<Navigate to="/posts" replace />} />  
         </Routes>
       ) : (
         <Routes>
